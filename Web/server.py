@@ -1,7 +1,5 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
-
-HOST = '10.101.105.16'
-PORT = 9999
+from config import HOST, PORT
 
 
 class NeuralHTTP(BaseHTTPRequestHandler):
