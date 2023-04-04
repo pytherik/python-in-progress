@@ -3,11 +3,15 @@ import os
 
 
 class Employees:
+    """ CRUD """
+    def __init__(self, firstname=None, lastname=None, department_id=None):
+        if firstname and lastname and department_id:
+            self.firstname = firstname
+            self.lastname = lastname
+            self.department_id = department_id
 
-    def __init__(self, firstname, lastname, department_id):
-        self.firstname = firstname
-        self.lastname = lastname
-        self.department_id = department_id
+    def __repr__(self):
+        return "Employees(firstname, lastname, department_id)"
 
     def set_firstname(self, firstname):
         self.firstname = firstname
@@ -41,9 +45,20 @@ class Employees:
     @staticmethod
     def read():
 
+        employees = []
         if Path('employees_data.csv').is_file():
             with open('employees_data.csv', 'r') as f:
                 lines = f.readlines()
                 for line in lines:
-                    print(line)
+                    emp = line.strip().split(',')
+                    employees.append(Employees(emp[0], emp[1], emp[2]))
+        return employees
 
+    def delete(self):
+
+        employees = self.read()
+        os.remove('employees_data.csv')
+        for emp in employees:
+            if emp.__dict__ != self.__dict__:
+                emp.store()
+        return self.read()
