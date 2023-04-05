@@ -40,7 +40,8 @@ class Employees:
             separator = ""
         with open('employees_data.csv', 'a') as f:
             f.write(f"{separator}{self.firstname},{self.lastname},{self.department_id}")
-        print(f"Employee {self.department_id} stored")
+        #
+        # print(f"Employee {self.department_id} stored")
 
     @staticmethod
     def read():
@@ -62,3 +63,18 @@ class Employees:
             if emp.__dict__ != self.__dict__:
                 emp.store()
         return self.read()
+
+    def update(self, action, new_value):
+        employees = self.read()
+        for emp in employees:
+            if emp.__dict__ == self.__dict__:
+                if action == 'firstname':
+                    emp.set_firstname(new_value)
+                elif action == 'lastname':
+                    emp.set_lastname(new_value)
+                elif action == 'id':
+                    emp.set_department_id(new_value)
+                break
+        os.remove('employees_data.csv')
+        for emp in employees:
+            emp.store()
